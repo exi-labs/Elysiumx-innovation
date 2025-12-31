@@ -1,16 +1,35 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
 
-const app = express();
 app.use(express.json());
-app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("hello world of the Elysium");
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(helmet());
+app.use(cookieParser());
+
+app.get("/hello", (req, res) => {
+  const name = req.cookies.name;
+  res.cookie("name", "jay", {path: "/hello"});
+  res.send(`hello ${name} world of the Elysium`);
 });
 
-const PORT = process.env.PORT || 3000;
+app.get("/random", (req, res) => {
+  res.send("i am random page testing time ! ");
+});
+
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(` server app listening on port ${PORT}`);

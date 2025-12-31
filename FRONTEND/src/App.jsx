@@ -4,7 +4,9 @@ function App() {
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/hello")
+    fetch("http://localhost:3000/hello", {
+      credentials: "include",
+    })
       .then((res) => res.text())
       .then((data) => setMsg(data));
   }, []);
