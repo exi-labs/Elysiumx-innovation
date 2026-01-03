@@ -1,14 +1,17 @@
 import {useEffect, useState} from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 function App() {
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3000/hello", {
+    fetch(`${API_BASE_URL}/about`, {
       credentials: "include",
     })
       .then((res) => res.text())
-      .then((data) => setMsg(data));
+      .then((data) => setMsg(data))
+      .catch(console.error);
   }, []);
 
   return (
